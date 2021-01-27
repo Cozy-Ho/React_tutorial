@@ -1,4 +1,4 @@
-import { useQuery, gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 
 const search_all = gql`
   query {
@@ -22,38 +22,28 @@ const search_all = gql`
   }
 `;
 
-function GetMovies() {
+function getMovies() {
   const { loading, error, data } = useQuery(search_all);
-  if (loading) {
-    return <h2>loading...</h2>;
-  }
-  if (error) {
-    return <h2>ERROR!!</h2>;
-  }
-  return data.searchMovie.map(({ id, title, score, desc, watched, info }) => (
-    <div key={id}>
-      <table border="1">
-        <tr>
-          <td>ID</td>
-          <td>title</td>
-          <td>score</td>
-          <td>desc</td>
-          <td>watched</td>
-          <td>info</td>
-        </tr>
-        <tr>
-          <td>{id}</td>
-          <td>{title}</td>
-          <td>{score}</td>
-          <td>{desc}</td>
-          <td>{watched}</td>
-          <td>{info}</td>
-        </tr>
-      </table>
-    </div>
-  ));
+
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
+
+  return (
+    <table>
+      {data.searchMovies.map((movie) => {
+        <tr key={movie.id}>
+          <td>{movie.id}</td>
+          <td>{movie.title}</td>
+          <td>{movie.score}</td>
+          <td>{movie.desc}</td>
+          <td>{movie.watched}</td>
+          <td>{movie.info}</td>
+        </tr>;
+      })}
+    </table>
+  );
 }
 
 module.exports = {
-  GetMovies,
+  getMovies,
 };
