@@ -1,8 +1,14 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 
-const search_all = gql`
-  query {
-    searchMovie {
+export const client = new ApolloClient({
+  uri: "http://localhost:4000",
+  cache: new InMemoryCache(),
+});
+
+export const getMovie = gql`
+  query getMovie($id: String!) {
+    getMovie(id: $id) {
       id
       title
       score
@@ -22,28 +28,63 @@ const search_all = gql`
   }
 `;
 
-function getMovies() {
-  const { loading, error, data } = useQuery(search_all);
+export const searchMovie = gql`
+  query searchMovie(
+    $search: SearchMethod
+    $orderby: SortMethod
+    $pagination: PaginationMethod
+  ) {
+    searchMovie(search: $search, orderby: $orderby, pagination: $pagination) {
+      id
+      title
+      score
+      desc
+      watched
+      info {
+        ... on Sub {
+          lang
+          subtitle
+        }
+        ... on Dub {
+          lang
+          dubbing
+        }
+      }
+    }
+  }
+`;
 
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
-
-  return (
-    <table>
-      {data.searchMovies.map((movie) => {
-        <tr key={movie.id}>
-          <td>{movie.id}</td>
-          <td>{movie.title}</td>
-          <td>{movie.score}</td>
-          <td>{movie.desc}</td>
-          <td>{movie.watched}</td>
-          <td>{movie.info}</td>
-        </tr>;
-      })}
-    </table>
-  );
-}
-
-module.exports = {
-  getMovies,
-};
+export const createMovie = gql`
+  mutation CreateMovie(
+    $title: String!
+    $desc: String
+    $score: Number
+    $watched: Boolean
+    $lang: String
+    $dubbing: String
+    $subtitle: String
+  ) {
+    createMovie(
+      title: $title
+      desc: $desc
+      score: $score
+      info: { lang: $lang, dubbing: $dubbing, subtitle: $subtitle }
+    ) {
+      id
+      title
+      score
+      desc
+      watched
+      info {
+        ... on Sub {
+          lang
+          subtitle
+        }
+        ... on Dub {
+          lang
+          dubbing
+        }
+      }
+    }
+  }
+`;
