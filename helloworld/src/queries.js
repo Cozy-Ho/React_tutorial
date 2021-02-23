@@ -27,7 +27,6 @@ export const getMovie = gql`
     }
   }
 `;
-
 export const searchMovie = gql`
   query searchMovie(
     $search: SearchMethod

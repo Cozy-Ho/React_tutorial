@@ -21,6 +21,7 @@ class SearchByID extends Component {
     );
   }
 }
+
 class SearchData extends Component {
   render() {
     return (
@@ -55,12 +56,133 @@ class SearchData extends Component {
           </p>
           <p>
             WATCHED:
+            <label>
+              <input
+                type="radio"
+                name="watched"
+                value="false"
+                onChange={(e) => this.props.onChange(e)}
+              />
+              false
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="watched"
+                value="true"
+                onChange={(e) => this.props.onChange(e)}
+              />
+              true
+            </label>
+          </p>
+          <p>
+            INFO:<br></br>
+            lang:
             <input
               type="text"
-              value={this.props.watched}
-              name="watched"
+              value={this.props.lang}
+              name="lang"
               onChange={(e) => this.props.onChange(e)}
             ></input>
+            <br></br>
+            subtitle:
+            <input
+              type="text"
+              value={this.props.subtitle}
+              name="subtitle"
+              onChange={(e) => this.props.onChange(e)}
+            ></input>
+            <br></br>
+            dubbing:
+            <input
+              type="text"
+              value={this.props.dubbing}
+              name="dubbing"
+              onChange={(e) => this.props.onChange(e)}
+            ></input>
+            <br></br>
+          </p>
+          <p>
+            AND | OR : <br />
+            <label>
+              <input
+                type="radio"
+                name="andor"
+                value="and"
+                onChange={(e) => this.props.onChange(e)}
+              />
+              and
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="andor"
+                value="or"
+                onChange={(e) => this.props.onChange(e)}
+              />
+              or
+            </label>
+          </p>
+          <p>
+            ORDERBY:
+            <br />
+            <label>
+              <input
+                type="radio"
+                name="order"
+                value="id"
+                onChange={(e) => this.props.onChange(e)}
+              />
+              ID
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="order"
+                value="title"
+                onChange={(e) => this.props.onChange(e)}
+              />
+              title
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="order"
+                value="desc"
+                onChange={(e) => this.props.onChange(e)}
+              />
+              desc
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="order"
+                value="score"
+                onChange={(e) => this.props.onChange(e)}
+              />
+              score
+            </label>
+          </p>
+          <p>
+            DIRECTION:
+            <label>
+              <input
+                type="radio"
+                name="dir"
+                value="asc"
+                onChange={(e) => this.props.onChange(e)}
+              />
+              asc
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="dir"
+                value="desc"
+                onChange={(e) => this.props.onChange(e)}
+              />
+              desc
+            </label>
           </p>
           <button type="submit">SUBMIT</button>
           <button onClick={this.props.clickClose}>CLOSE</button>

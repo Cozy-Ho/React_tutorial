@@ -18,8 +18,10 @@ export class Table extends Component {
             <th>subtitile</th>
           </tr>
           <TableData
-            inputOption={this.props.inputOption}
-            movie_arr={this.props.movie_arr}
+            id={this.props.id}
+            search={this.props.search}
+            orderby={this.props.orderby}
+            pagination={this.props.pagination}
           ></TableData>
         </table>
       </div>
@@ -29,52 +31,26 @@ export class Table extends Component {
 
 class TableData extends Component {
   render() {
-    // console.log(this.props.inputOption);
-    const op = this.props.inputOption;
+    const id = this.props.id;
+    const search = this.props.search;
+    const orderby = this.props.orderby;
+    const pagination = this.props.pagination;
 
-    let search = {};
-    let orderby = {};
-    let pagination = {};
-    console.log(this.props.movie_arr);
-    if (this.props.movie_arr) {
-      return (
-        <React.Fragment>
-          {this.props.movie_arr.map((movie) => (
-            <tr>
-              <td>{movie.id}</td>
-              <td>{movie.title}</td>
-              <td>{movie.score}</td>
-              <td>{movie.desc}</td>
-              <td>{movie.watched.toString()}</td>
-              <td>{movie.info.lang}</td>
-              <td>{movie.info.dubbing}</td>
-              <td>{movie.info.subtitle}</td>
-            </tr>
-          ))}
-        </React.Fragment>
-      );
-    } else {
-      return <SearchMovie></SearchMovie>;
+    if (id) {
+      return <GetMovie id={id}></GetMovie>;
     }
-
-    // if (op === "getMovie") {
-    //   return <GetMovie id={this.props.id}></GetMovie>;
-    // } else if (op === "searchMovie") {
-    //   return (
-    //     <SearchMovie
-    //       searc={search}
-    //       orderby={orderby}
-    //       pagination={pagination}
-    //     ></SearchMovie>
-    //   );
-    // } else if (op === "createMovie") {
-    //   //   return <tr></tr>;
-    // } else if (op === "updateMovie") {
-    //   //   return <tr></tr>;
-    // } else if (op === "deleteMovie") {
-    //   //   return <tr></tr>;
-    // }
-    // return <tr></tr>;
+    if (search) {
+      return (
+        <SearchMovie
+          search={search}
+          orderby={orderby}
+          pagination={pagination}
+        ></SearchMovie>
+      );
+    }
+    return (
+      <SearchMovie search={null} orderby={null} pagination={null}></SearchMovie>
+    );
   }
 }
 
@@ -105,9 +81,10 @@ function SearchMovie({ search, orderby, pagination }) {
   const { loading, error, data } = useQuery(searchMovie, {
     variables: { search, orderby, pagination },
   });
+  console.log(search, orderby, pagination);
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
-  //   console.log(data.searchMovie);
+  console.log(data.searchMovie);
   return (
     <React.Fragment>
       {data.searchMovie.map((movie) => (
