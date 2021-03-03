@@ -24,7 +24,7 @@ function showSubtitle(cell, row) {
 class Table1 extends Component {
     render() {
         const options = {
-            page: 4,
+            page: 1,
             prePage: "⟵",
             nextPage: "⟶",
             firstPage: "⟸",
@@ -33,7 +33,7 @@ class Table1 extends Component {
         return (
             <div>
                 <BootstrapTable
-                    data={this.props.data.searchMovie}
+                    data={this.props.data}
                     trClassName={rowClassNameFormat}
                     pagination={true}
                     options={options}
